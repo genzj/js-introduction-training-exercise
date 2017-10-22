@@ -34,7 +34,7 @@
 
 <script type="text/javascript">
   document.getElementById('hint').onclick = function () {
-    var hint = this;
+    let hint = this;
 
     fetch('http://ip-api.com/json')
       .then(function (response) {
@@ -45,8 +45,9 @@
         }
       })
       .then(function (data) {
+        let {query:ip, country, city} = data;
         hint.textContent = "Your IP address is:";
-        document.getElementById('result').textContent = data.query;
+        document.getElementById('result').textContent = `${ip} (${city}, ${country})`;
       })
       .catch(function (e) {
           alert("Problem retrieving data: " + e);
