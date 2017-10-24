@@ -2,7 +2,20 @@
   var state = 'off';
   var start_ts = null, stop_ts = null;
   var starter = document.querySelector('#starter');
+  var updater = null;
 
+  function startTimingUpdater() {
+    updater = setInterval(function () {
+      setTimingText(new Date() - start_ts);
+    }, 1);
+  }
+
+  function stopTimingUpdater() {
+    if (updater) {
+      clearInterval(updater);
+      updater = null;
+    }
+  }
 
   function randomInt(low, high) {
     return Math.floor(Math.random() * (high - low) + low);
@@ -13,6 +26,7 @@
     var idx = randomInt(0, buttons.length);
     buttons[idx].classList.add('active');
     start_ts = new Date();
+    startTimingUpdater();
   }
 
   function resetActiveButton() {
@@ -32,6 +46,7 @@
   function stop() {
     state = 'off';
     stop_ts = new Date();
+    stopTimingUpdater();
     setTimingText(stop_ts - start_ts);
     reset();
   }
